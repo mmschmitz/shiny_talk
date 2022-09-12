@@ -1,0 +1,25 @@
+---
+title: "RShiny Talk"
+author: "Michelle Schmitz"
+date: "`r Sys.Date()`"
+output: 
+  ioslides_presentation:
+    widescreen: true
+---
+
+<style>
+.forceBreak { -webkit-column-break-after: always; break-after: column; }
+</style>
+
+```{r setup, include=FALSE}
+library(knitr)
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+## RShiny: What is it?
+
+Shiny is an R package that makes it easy to build interactive web apps straight from R. 
+
+You can:
+- host standalone apps on a webpage or embed them in R Markdown documents or build dashboards.
+- extend your Shiny apps with CSS themes, htmlwidgets, and JavaScript actions.
