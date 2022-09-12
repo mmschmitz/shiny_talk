@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>RShiny Talk</title>
+  <title>A Quick Formatting Overview of RShiny</title>
 
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="chrome=1">
@@ -9,7 +9,7 @@
 
 
 
-  <meta name="date" content="2022-09-11" />
+  <meta name="date" content="2022-09-12" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -20,7 +20,7 @@
     var SLIDE_CONFIG = {
       // Slide settings
       settings: {
-                title: 'RShiny Talk',
+                title: 'A Quick Formatting Overview of RShiny',
                         useBuilds: true,
         usePrettify: true,
         enableSlideAreas: true,
@@ -3145,7 +3145,7 @@ slide:not(.current) .plotly.html-widget{
       <h1 data-config-title><!-- populated from slide_config.json --></h1>
       
       <p data-config-presenter><!-- populated from slide_config.json --></p>
-            <p style="margin-top: 6px; margin-left: -2px;">2022-09-11</p>
+            <p style="margin-top: 6px; margin-left: -2px;">2022-09-12</p>
           </hgroup>
   </slide>
 
@@ -3157,7 +3157,151 @@ slide:not(.current) .plotly.html-widget{
 
 <p>Shiny is an R package that makes it easy to build interactive web apps straight from R.</p>
 
-<p>You can: - host standalone apps on a webpage or embed them in R Markdown documents or build dashboards. - extend your Shiny apps with CSS themes, htmlwidgets, and JavaScript actions.</p></article></slide>
+<pre >With Shiny, you can:
+- host standalone apps on a webpage
+- embed them in R Markdown documents
+- build (reactive) dashboards
+- extend your Shiny apps (with CSS themes, htmlwidgets, and JavaScript actions)</pre>
+
+<!-- #What are Shiny Apps useful for? -->
+
+<!-- #Interactive data visualisation for presentations and websites -->
+
+<!-- #Sharing results with collaborators -->
+
+<!-- #Communicating science in an accessible way -->
+
+<!-- #Bridging the gap between R users and non-R users -->
+
+</article></slide><slide class=""><hgroup><h2>Components of an RShiny App</h2></hgroup><article  id="components-of-an-rshiny-app">
+
+<p>Within an <code>app.R</code> script, there are 2 main components:</p>
+
+<ul>
+<li><code>ui</code> (user interface script/ <em>front-end</em>)
+
+<ul>
+<li>controls layout &amp; appearance</li>
+<li>converts R code to HTML</li>
+</ul></li>
+<li><code>server</code> (server script/ <em>back-end</em>)
+
+<ul>
+<li>contains the code needed to build the application</li>
+</ul></li>
+</ul>
+
+<p>These two scripts are kept in a <em>single</em> R file called <strong><code>app.R</code></strong>.</p>
+
+<p><em>Note: in previous versions of Shiny, the <code>ui</code> and <code>server</code> sections were set up as two separate scripts, <code>ui.R</code> and <code>server.R</code>. The application can still work with this format, but it’s tidier to keep everything in <code>app.R</code>.</em></p>
+
+</article></slide><slide class=""><hgroup><h2>Digging Deeper into the Components (1/3)</h2></hgroup><article  id="digging-deeper-into-the-components-13">
+
+<p><strong>ui</strong></p>
+
+<ul>
+<li>Contains information about the layout of the app as it appears in your web browser.
+
+<ul>
+<li>Usually structured using panels that can be laid out in different arrangements, created using nested Shiny functions.</li>
+<li>Panels can contain text, widgets, plots, tables, maps, images, etc.</li>
+</ul></li>
+</ul>
+
+<pre >## one layout example -- 
+# ui.R ----
+ui &lt;- fluidPage(
+  titlePanel(&quot;&quot;),  # Add a title panel
+  sidebarLayout(  # Make the layout a sidebarLayout
+    sidebarPanel(),  # Inside the sidebarLayout, add a sidebarPanel
+    mainPanel()  # Inside the sidebarLayout, add a mainPanel
+  )
+)
+</pre>
+
+</article></slide><slide class=""><hgroup><h2>Digging Deeper into the Components (2/3)</h2></hgroup><article  id="digging-deeper-into-the-components-23">
+
+<p><strong>server</strong></p>
+
+<ul>
+<li>Contains information about the computation of the app, creating plots, tables, maps etc. using information provided by the user.</li>
+<li>Usually is basic R code, but can also take in reactive output (i.e., something that can be modified based on the user’s inputs)
+
+<ol>
+<li>Add an R object to the UI.</li>
+<li>Add instructions on how to build object into server.</li>
+</ol></li>
+</ul>
+
+<pre ># server.R ----
+server &lt;- function(input, output) {
+  output$plot &lt;- renderPlot(ggplot(Barley, aes(x = yield)) +  # Create object called `output$plot` with a ggplot inside it
+  geom_histogram(bins = 7,  # Add a histogram to the plot
+    fill = &quot;grey&quot;,  # Make the fill colour grey
+    data = Barley,  # Use data from `Barley`
+    colour = &quot;black&quot;)  # Outline the bins in black
+  )                                                       
+}</pre>
+
+</article></slide><slide class=""><hgroup><h2>Digging Deeper into the Components (3/3)</h2></hgroup><article  id="digging-deeper-into-the-components-33">
+
+<p><strong>app.R</strong> (combines the server + ui blocks)</p>
+
+<ul>
+<li>A command to run the app. <em>This should be included at the very end of app.R.</em></li>
+<li>Tells Shiny that the user interface comes from the object called ui and that the server information (data, plots, tables, etc.) comes from the object called server.</li>
+</ul>
+
+<pre ># Run the app ----
+shinyApp(ui = ui, server = server)</pre>
+
+<p>Note: if you were using the separate <code>ui.R</code> and <code>server.R</code> formats, you would use the below syntax instead:</p>
+
+<pre ># Run the app (old version)----
+shinyServer(function(input,output){
+[text here]
+})</pre>
+
+<!-- ## All Together - A Basic R Script -->
+
+<!-- ``` -->
+
+<!--  library(shiny)  # Required to run any Shiny app -->
+
+<!--  library(ggplot2)  # For creating pretty plots -->
+
+<!--  library(dplyr)  # For filtering and manipulating data -->
+
+<!--  # Loading data ---- -->
+
+<!--  Barley <- as.data.frame(beaven.barley) ## or read in data source -->
+
+<!--  # ui.R ---- -->
+
+<!--  ui <- fluidPage() -->
+
+<!--  # server.R ---- -->
+
+<!--  server <- function(input, output) {} -->
+
+<!--  # Run the app ---- -->
+
+<!--  shinyApp(ui = ui, server = server) -->
+
+<!--  ``` -->
+
+</article></slide><slide class=""><hgroup><h2>Tutorial Links</h2></hgroup><article  id="tutorial-links">
+
+<ul>
+<li><a href='https://shiny.rstudio.com' title=''>RShiny Landing Page</a>
+
+<ul>
+<li><a href='https://shiny.rstudio.com/tutorial/' title=''>RShiny Tutorial from RStudio</a></li>
+</ul></li>
+<li><a href='https://www.rstudio.com/wp-content/uploads/2015/02/rmarkdown-cheatsheet.pdf' title=''>RMarkdown Cheatsheet</a></li>
+<li><a href='https://ourcodingclub.github.io/tutorials/shiny/' title=''>Basic RShiny Tutorial</a></li>
+<li><a href='https://www.slideshare.net/Sheffield_R_/introduction-to-shiny-for-r' title=''>Introduction to Shiny for R</a></li>
+</ul></article></slide>
 
 
   <slide class="backdrop"></slide>
