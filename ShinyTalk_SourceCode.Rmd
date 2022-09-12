@@ -1,5 +1,5 @@
 ---
-title: "RShiny Talk"
+title: "A Quick Formatting Overview of RShiny"
 author: "Michelle Schmitz"
 date: "`r Sys.Date()`"
 output: 
@@ -20,6 +20,122 @@ knitr::opts_chunk$set(echo = FALSE)
 
 Shiny is an R package that makes it easy to build interactive web apps straight from R. 
 
-You can:
-- host standalone apps on a webpage or embed them in R Markdown documents or build dashboards.
-- extend your Shiny apps with CSS themes, htmlwidgets, and JavaScript actions.
+```
+With Shiny, you can:
+- host standalone apps on a webpage
+- embed them in R Markdown documents
+- build (reactive) dashboards
+- extend your Shiny apps (with CSS themes, htmlwidgets, and JavaScript actions)
+```
+
+<!-- #What are Shiny Apps useful for? -->
+<!-- #Interactive data visualisation for presentations and websites -->
+<!-- #Sharing results with collaborators -->
+<!-- #Communicating science in an accessible way -->
+<!-- #Bridging the gap between R users and non-R users -->
+
+## Components of an RShiny App
+
+Within an `app.R` script, there are 2 main components:
+
+- `ui` (user interface script/ _front-end_)
+  - controls layout & appearance
+  - converts R code to HTML
+- `server` (server script/ _back-end_)
+  - contains the code needed to build the application
+
+These two scripts are kept in a _single_ R file called **`app.R`**.
+
+_Note: in previous versions of Shiny, the `ui` and `server` sections were set up as two separate scripts, `ui.R` and `server.R`. The application can still work with this format, but it's tidier to keep everything in `app.R`._
+
+## Digging Deeper into the Components (1/3)
+
+**ui**
+
+- Contains information about the layout of the app as it appears in your web browser. 
+  - Usually structured using panels that can be laid out in different arrangements, created using nested Shiny functions. 
+  - Panels can contain text, widgets, plots, tables, maps, images, etc.
+
+```
+## one layout example -- 
+# ui.R ----
+ui <- fluidPage(
+  titlePanel(""),  # Add a title panel
+  sidebarLayout(  # Make the layout a sidebarLayout
+    sidebarPanel(),  # Inside the sidebarLayout, add a sidebarPanel
+    mainPanel()  # Inside the sidebarLayout, add a mainPanel
+  )
+)
+
+```
+
+## Digging Deeper into the Components (2/3)
+
+
+**server**
+
+- Contains information about the computation of the app, creating plots, tables, maps etc. using information provided by the user. 
+- Usually is basic R code, but can also take in reactive output (i.e., something that can be modified based on the user's inputs)
+  1. Add an R object to the UI.
+  2. Add instructions on how to build object into server.
+
+```
+# server.R ----
+server <- function(input, output) {
+  output$plot <- renderPlot(ggplot(Barley, aes(x = yield)) +  # Create object called `output$plot` with a ggplot inside it
+  geom_histogram(bins = 7,  # Add a histogram to the plot
+    fill = "grey",  # Make the fill colour grey
+    data = Barley,  # Use data from `Barley`
+    colour = "black")  # Outline the bins in black
+  )                                                       
+}
+```
+
+## Digging Deeper into the Components (3/3)
+
+**app.R** (combines the server + ui blocks)
+
+- A command to run the app. _This should be included at the very end of app.R._
+- Tells Shiny that the user interface comes from the object called ui and that the server information (data, plots, tables, etc.) comes from the object called server.
+
+```
+# Run the app ----
+shinyApp(ui = ui, server = server)
+```
+
+Note: if you were using the separate `ui.R` and `server.R` formats, you would use the below syntax instead:
+
+```
+# Run the app (old version)----
+shinyServer(function(input,output){
+[text here]
+})
+```
+
+<!-- ## All Together - A Basic R Script -->
+
+<!-- ``` -->
+<!--  library(shiny)  # Required to run any Shiny app -->
+<!--  library(ggplot2)  # For creating pretty plots -->
+<!--  library(dplyr)  # For filtering and manipulating data -->
+
+<!--  # Loading data ---- -->
+<!--  Barley <- as.data.frame(beaven.barley) ## or read in data source -->
+
+<!--  # ui.R ---- -->
+<!--  ui <- fluidPage() -->
+
+<!--  # server.R ---- -->
+<!--  server <- function(input, output) {} -->
+
+<!--  # Run the app ---- -->
+<!--  shinyApp(ui = ui, server = server) -->
+<!--  ``` -->
+ 
+## Tutorial Links
+
+- [RShiny Landing Page](https://shiny.rstudio.com)
+  - [RShiny Tutorial from RStudio](https://shiny.rstudio.com/tutorial/)
+- [RMarkdown Cheatsheet](https://www.rstudio.com/wp-content/uploads/2015/02/rmarkdown-cheatsheet.pdf)
+- [Basic RShiny Tutorial](https://ourcodingclub.github.io/tutorials/shiny/)
+- [Introduction to Shiny for R](https://www.slideshare.net/Sheffield_R_/introduction-to-shiny-for-r)
