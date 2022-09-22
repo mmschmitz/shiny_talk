@@ -3342,23 +3342,31 @@ shinyServer(function(input,output){
 <li>There’s a <em>lot</em> of stuff available if you know where to look - make sure to look around.</li>
 </ul>
 
-</article></slide><slide class=""><hgroup><h2>Sharing Apps</h2></hgroup><article  id="sharing-apps">
+</article></slide><slide class=""><hgroup><h2>Sharing Shiny Applications</h2></hgroup><article  id="sharing-shiny-applications">
 
 <p>You can either:</p>
 
 <ul>
-<li>Share files with an R user who know how to use it</li>
-<li>Share as a webpage (either on hosting an app, <code>shinyapps.io</code>, or Shiny Server)</li>
+<li>Share files with an R user who know how to use it, such as:
+
+<ul>
+<li>Zip file</li>
+<li>GitHub</li>
+</ul></li>
+<li>Share as a webpage, either on:
+
+<ul>
+<li>Server-side hosting an app</li>
+<li>Free-standing online website (at <a href='shinyapps.io' title=''>shinyapps.io</a>)</li>
+<li>Free-standing application on the Linux-based Shiny Server</li>
+</ul></li>
 </ul>
 
-</article></slide><slide class=""><hgroup><h2>Tutorial Links</h2></hgroup><article  id="tutorial-links">
+</article></slide><slide class=""><hgroup><h2>Tutorial Links to Follow</h2></hgroup><article  id="tutorial-links-to-follow">
 
 <ul>
-<li><a href='https://shiny.rstudio.com' title=''>RShiny Landing Page</a>
-
-<ul>
+<li><a href='https://shiny.rstudio.com' title=''>RShiny Landing Page</a></li>
 <li><a href='https://shiny.rstudio.com/tutorial/' title=''>RShiny Tutorial from RStudio</a></li>
-</ul></li>
 <li><a href='https://www.rstudio.com/wp-content/uploads/2015/02/rmarkdown-cheatsheet.pdf' title=''>RMarkdown Cheatsheet</a></li>
 <li><a href='https://ourcodingclub.github.io/tutorials/shiny/' title=''>Basic RShiny Tutorial</a></li>
 <li><a href='https://www.slideshare.net/Sheffield_R_/introduction-to-shiny-for-r' title=''>Introduction to Shiny for R</a></li>
@@ -3366,28 +3374,32 @@ shinyServer(function(input,output){
 
 </article></slide><slide class=""><hgroup><h2>Appendix 1: Output Functions</h2></hgroup><article  id="appendix-1-output-functions">
 
+<!-- why on earth are you not rendering correctly, table?! -->
+
 <p>This is what you put into a UI to tell it where to output the desired object.</p>
 
-<pre >| Output Function   | creates...    |
-|-------------------|---------------|
-| `htmlOutput`      | raw HTML      |
-| `imageOutput`     | image         |
-| `plotOutput`      | plot          |
-| `tableOutput`     | table         |
-| `textOutput`      | text          | </pre>
+<pre >| Output Function   | creates...        |
+|-------------------|-------------------|
+| `htmlOutput`      | raw HTML          |
+| `imageOutput`     | image             |
+| `plotOutput`      | plot              |
+| `tableOutput`     | table             |
+| `textOutput`      | text              | </pre>
 
 </article></slide><slide class=""><hgroup><h2>Appendix 2: Render Functions</h2></hgroup><article  id="appendix-2-render-functions">
 
+<!-- why on earth are you not rendering correctly, table?! -->
+
 <p>This is what you put into the server-side (back-end) to create the object.</p>
 
-<pre >| render Function       | creates...              |
-|-----------------------|-------------------------|
-| `renderImage`         | images                  |
-| `renderPlot`          | plot                    |
-| `renderPrint`         | any printed output      |
-| `renderTable`         | data frame, matrix, other table like structures         |
-| `renderText`          | character strings       |
-| `renderUI`            | a Shiny tag object/HTML |</pre></article></slide>
+<pre >| render Function       | creates...                                    |
+|-----------------------|-----------------------------------------------|
+| `renderImage`         | images                                        |
+| `renderPlot`          | plot                                          |
+| `renderPrint`         | any printed output                            |
+| `renderTable`         | data frame, matrix, other table structures    |
+| `renderText`          | character strings                             |
+| `renderUI`            | a Shiny tag object/HTML                       |</pre></article></slide>
 
 
   <slide class="backdrop"></slide>

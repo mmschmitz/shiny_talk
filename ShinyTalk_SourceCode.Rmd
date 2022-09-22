@@ -163,42 +163,51 @@ shinyServer(function(input,output){
 - **Progress Bars** can help users to gauge the progress of a calculation.
 - There's a *lot* of stuff available if you know where to look - make sure to look around.
 
-## Sharing Apps
+## Sharing Shiny Applications
 
 You can either:
 
-- Share files with an R user who know how to use it
-- Share as a webpage (either on hosting an app, `shinyapps.io`, or Shiny Server)
+- Share files with an R user who know how to use it, such as:
+  - Zip file
+  - GitHub
+- Share as a webpage, either on:
+  - Server-side hosting an app
+  - Free-standing online website (at [shinyapps.io](shinyapps.io))
+  - Free-standing application on the Linux-based Shiny Server
 
-## Tutorial Links
+## Tutorial Links to Follow
 
 - [RShiny Landing Page](https://shiny.rstudio.com)
-  - [RShiny Tutorial from RStudio](https://shiny.rstudio.com/tutorial/)
+- [RShiny Tutorial from RStudio](https://shiny.rstudio.com/tutorial/)
 - [RMarkdown Cheatsheet](https://www.rstudio.com/wp-content/uploads/2015/02/rmarkdown-cheatsheet.pdf)
 - [Basic RShiny Tutorial](https://ourcodingclub.github.io/tutorials/shiny/)
 - [Introduction to Shiny for R](https://www.slideshare.net/Sheffield_R_/introduction-to-shiny-for-r)
 
 ## Appendix 1: Output Functions
 
+<!-- why on earth are you not rendering correctly, table?! -->
+
 This is what you put into a UI to tell it where to output the desired object.
 
-    | Output Function   | creates...    |
-    |-------------------|---------------|
-    | `htmlOutput`      | raw HTML      |
-    | `imageOutput`     | image         |
-    | `plotOutput`      | plot          |
-    | `tableOutput`     | table         |
-    | `textOutput`      | text          | 
+    | Output Function   | creates...        |
+    |-------------------|-------------------|
+    | `htmlOutput`      | raw HTML          |
+    | `imageOutput`     | image             |
+    | `plotOutput`      | plot              |
+    | `tableOutput`     | table             |
+    | `textOutput`      | text              | 
 
 ## Appendix 2: Render Functions
 
+<!-- why on earth are you not rendering correctly, table?! -->
+
 This is what you put into the server-side (back-end) to create the object.
 
-    | render Function       | creates...              |
-    |-----------------------|-------------------------|
-    | `renderImage`         | images                  |
-    | `renderPlot`          | plot                    |
-    | `renderPrint`         | any printed output      |
-    | `renderTable`         | data frame, matrix, other table like structures         |
-    | `renderText`          | character strings       |
-    | `renderUI`            | a Shiny tag object/HTML |
+    | render Function       | creates...                                    |
+    |-----------------------|-----------------------------------------------|
+    | `renderImage`         | images                                        |
+    | `renderPlot`          | plot                                          |
+    | `renderPrint`         | any printed output                            |
+    | `renderTable`         | data frame, matrix, other table structures    |
+    | `renderText`          | character strings                             |
+    | `renderUI`            | a Shiny tag object/HTML                       |
