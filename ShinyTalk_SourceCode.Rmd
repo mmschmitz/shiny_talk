@@ -69,15 +69,28 @@ ui <- fluidPage(
 
 ```
 
-## Digging Deeper into the Components (2/3)
+## Digging Deeper into the Components (1/3) (cont'd)
 
+- Shiny's user interface is derived based on *functions* (e.g., `fluidPage()`).
+- Text can be formatted using approximate equivalents between shiny and HTML5 (e.g., `h2` for `<h2>` for a 2nd-level header)
+- Images are set up using an `img(src="FILENAME",height=y,width=x)` argument.
+- **Widgets** are interactive web elements that can be interacted with `reactive` elements in the server.
+  - Examples include buttons, checkboxes, ranges, radio buttons, help text, sliders, etc.
+- Each element/feature is added to the section of the user interface, separated by commas.
+
+## Digging Deeper into the Components (2/3)
 
 **server**
 
+- Part of the script where all code is located for execution of app.
 - Contains information about the computation of the app, creating plots, tables, maps etc. using information provided by the user. 
-- Usually is basic R code, but can also take in reactive output (i.e., something that can be modified based on the user's inputs)
-  1. Add an R object to the UI.
-  2. Add instructions on how to build object into server.
+- Usually is basic R code, but can also take in reactive output (*will talk more about this later*)
+- Can define how often a code is run based on placement in the script
+  - Can put sourcing code before the `shinyServer()` call
+  - Placing code within the `shinyServer()` function, *but not in an output*, will run once when a user visits an app.
+  - Placing code within an output and a render function (*more later*) will change *every time someone modifies a widget*.
+
+## Digging Deeper into the Components (2/3) (cont'd)
 
 ```
 # server.R ----
@@ -131,7 +144,32 @@ shinyServer(function(input,output){
 <!--  # Run the app ---- -->
 <!--  shinyApp(ui = ui, server = server) -->
 <!--  ``` -->
- 
+
+
+## More on Reactive Outputs
+
+- Using widgets allows users to interact with the application - *reactive output* is the response to the interaction.
+- Adding widgets/reactive outputs into an app has 2 steps:
+  1. Add an R object/widget to the UI to indicate where it goes on the page)
+    - Has 1 argument (a name)  - an `Output function` (Appendix 1)
+  2. Add instructions on how to build object in the server
+    - Within the server, all objects in the UI need to be defined using the prefix `output$`, followed by the name of the object.
+    - Object name has a `render function` associated with it to do a certain action (see Appendix 2)  
+
+## Fun Additions
+
+- **Reactive expressions** are similar to reactive outputs, but allow one to interactive decide when certain parts of the app update (e.g., reactive data frames)
+- **Interactive Visualizations** can let you make interactive maps/charts - such as plotly, d3, Google Charts, etc.
+- **Progress Bars** can help users to gauge the progress of a calculation.
+- There's a *lot* of stuff available if you know where to look - make sure to look around.
+
+## Sharing Apps
+
+You can either:
+
+- Share files with an R user who know how to use it
+- Share as a webpage (either on hosting an app, `shinyapps.io`, or Shiny Server)
+
 ## Tutorial Links
 
 - [RShiny Landing Page](https://shiny.rstudio.com)
@@ -139,3 +177,28 @@ shinyServer(function(input,output){
 - [RMarkdown Cheatsheet](https://www.rstudio.com/wp-content/uploads/2015/02/rmarkdown-cheatsheet.pdf)
 - [Basic RShiny Tutorial](https://ourcodingclub.github.io/tutorials/shiny/)
 - [Introduction to Shiny for R](https://www.slideshare.net/Sheffield_R_/introduction-to-shiny-for-r)
+
+## Appendix 1: Output Functions
+
+This is what you put into a UI to tell it where to output the desired object.
+
+    | Output Function   | creates...    |
+    |-------------------|---------------|
+    | `htmlOutput`      | raw HTML      |
+    | `imageOutput`     | image         |
+    | `plotOutput`      | plot          |
+    | `tableOutput`     | table         |
+    | `textOutput`      | text          | 
+
+## Appendix 2: Render Functions
+
+This is what you put into the server-side (back-end) to create the object.
+
+    | render Function       | creates...              |
+    |-----------------------|-------------------------|
+    | `renderImage`         | images                  |
+    | `renderPlot`          | plot                    |
+    | `renderPrint`         | any printed output      |
+    | `renderTable`         | data frame, matrix, other table like structures         |
+    | `renderText`          | character strings       |
+    | `renderUI`            | a Shiny tag object/HTML |

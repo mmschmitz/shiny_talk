@@ -9,7 +9,7 @@
 
 
 
-  <meta name="date" content="2022-09-12" />
+  <meta name="date" content="2022-09-21" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -3145,7 +3145,7 @@ slide:not(.current) .plotly.html-widget{
       <h1 data-config-title><!-- populated from slide_config.json --></h1>
       
       <p data-config-presenter><!-- populated from slide_config.json --></p>
-            <p style="margin-top: 6px; margin-left: -2px;">2022-09-12</p>
+            <p style="margin-top: 6px; margin-left: -2px;">2022-09-21</p>
           </hgroup>
   </slide>
 
@@ -3219,19 +3219,38 @@ ui &lt;- fluidPage(
 )
 </pre>
 
+</article></slide><slide class=""><hgroup><h2>Digging Deeper into the Components (1/3) (cont’d)</h2></hgroup><article  id="digging-deeper-into-the-components-13-contd">
+
+<ul>
+<li>Shiny’s user interface is derived based on <em>functions</em> (e.g., <code>fluidPage()</code>).</li>
+<li>Text can be formatted using approximate equivalents between shiny and HTML5 (e.g., <code>h2</code> for <code>&lt;h2&gt;</code> for a 2nd-level header)</li>
+<li>Images are set up using an <code>img(src=&quot;FILENAME&quot;,height=y,width=x)</code> argument.</li>
+<li><strong>Widgets</strong> are interactive web elements that can be interacted with <code>reactive</code> elements in the server.
+
+<ul>
+<li>Examples include buttons, checkboxes, ranges, radio buttons, help text, sliders, etc.</li>
+</ul></li>
+<li>Each element/feature is added to the section of the user interface, separated by commas.</li>
+</ul>
+
 </article></slide><slide class=""><hgroup><h2>Digging Deeper into the Components (2/3)</h2></hgroup><article  id="digging-deeper-into-the-components-23">
 
 <p><strong>server</strong></p>
 
 <ul>
+<li>Part of the script where all code is located for execution of app.</li>
 <li>Contains information about the computation of the app, creating plots, tables, maps etc. using information provided by the user.</li>
-<li>Usually is basic R code, but can also take in reactive output (i.e., something that can be modified based on the user’s inputs)
+<li>Usually is basic R code, but can also take in reactive output (<em>will talk more about this later</em>)</li>
+<li>Can define how often a code is run based on placement in the script
 
-<ol>
-<li>Add an R object to the UI.</li>
-<li>Add instructions on how to build object into server.</li>
-</ol></li>
+<ul>
+<li>Can put sourcing code before the <code>shinyServer()</code> call</li>
+<li>Placing code within the <code>shinyServer()</code> function, <em>but not in an output</em>, will run once when a user visits an app.</li>
+<li>Placing code within an output and a render function (<em>more later</em>) will change <em>every time someone modifies a widget</em>.</li>
+</ul></li>
 </ul>
+
+</article></slide><slide class=""><hgroup><h2>Digging Deeper into the Components (2/3) (cont’d)</h2></hgroup><article  id="digging-deeper-into-the-components-23-contd">
 
 <pre ># server.R ----
 server &lt;- function(input, output) {
@@ -3290,6 +3309,48 @@ shinyServer(function(input,output){
 
 <!--  ``` -->
 
+</article></slide><slide class=""><hgroup><h2>More on Reactive Outputs</h2></hgroup><article  id="more-on-reactive-outputs">
+
+<ul>
+<li>Using widgets allows users to interact with the application - <em>reactive output</em> is the response to the interaction.</li>
+<li>Adding widgets/reactive outputs into an app has 2 steps:
+
+<ol>
+<li>Add an R object/widget to the UI to indicate where it goes on the page)</li>
+</ol>
+
+<ul>
+<li>Has 1 argument (a name) - an <code>Output function</code> (Appendix 1)</li>
+</ul>
+
+<ol>
+<li>Add instructions on how to build object in the server</li>
+</ol>
+
+<ul>
+<li>Within the server, all objects in the UI need to be defined using the prefix <code>output$</code>, followed by the name of the object.</li>
+<li>Object name has a <code>render function</code> associated with it to do a certain action (see Appendix 2)</li>
+</ul></li>
+</ul>
+
+</article></slide><slide class=""><hgroup><h2>Fun Additions</h2></hgroup><article  id="fun-additions">
+
+<ul>
+<li><strong>Reactive expressions</strong> are similar to reactive outputs, but allow one to interactive decide when certain parts of the app update (e.g., reactive data frames)</li>
+<li><strong>Interactive Visualizations</strong> can let you make interactive maps/charts - such as plotly, d3, Google Charts, etc.</li>
+<li><strong>Progress Bars</strong> can help users to gauge the progress of a calculation.</li>
+<li>There’s a <em>lot</em> of stuff available if you know where to look - make sure to look around.</li>
+</ul>
+
+</article></slide><slide class=""><hgroup><h2>Sharing Apps</h2></hgroup><article  id="sharing-apps">
+
+<p>You can either:</p>
+
+<ul>
+<li>Share files with an R user who know how to use it</li>
+<li>Share as a webpage (either on hosting an app, <code>shinyapps.io</code>, or Shiny Server)</li>
+</ul>
+
 </article></slide><slide class=""><hgroup><h2>Tutorial Links</h2></hgroup><article  id="tutorial-links">
 
 <ul>
@@ -3301,7 +3362,32 @@ shinyServer(function(input,output){
 <li><a href='https://www.rstudio.com/wp-content/uploads/2015/02/rmarkdown-cheatsheet.pdf' title=''>RMarkdown Cheatsheet</a></li>
 <li><a href='https://ourcodingclub.github.io/tutorials/shiny/' title=''>Basic RShiny Tutorial</a></li>
 <li><a href='https://www.slideshare.net/Sheffield_R_/introduction-to-shiny-for-r' title=''>Introduction to Shiny for R</a></li>
-</ul></article></slide>
+</ul>
+
+</article></slide><slide class=""><hgroup><h2>Appendix 1: Output Functions</h2></hgroup><article  id="appendix-1-output-functions">
+
+<p>This is what you put into a UI to tell it where to output the desired object.</p>
+
+<pre >| Output Function   | creates...    |
+|-------------------|---------------|
+| `htmlOutput`      | raw HTML      |
+| `imageOutput`     | image         |
+| `plotOutput`      | plot          |
+| `tableOutput`     | table         |
+| `textOutput`      | text          | </pre>
+
+</article></slide><slide class=""><hgroup><h2>Appendix 2: Render Functions</h2></hgroup><article  id="appendix-2-render-functions">
+
+<p>This is what you put into the server-side (back-end) to create the object.</p>
+
+<pre >| render Function       | creates...              |
+|-----------------------|-------------------------|
+| `renderImage`         | images                  |
+| `renderPlot`          | plot                    |
+| `renderPrint`         | any printed output      |
+| `renderTable`         | data frame, matrix, other table like structures         |
+| `renderText`          | character strings       |
+| `renderUI`            | a Shiny tag object/HTML |</pre></article></slide>
 
 
   <slide class="backdrop"></slide>
